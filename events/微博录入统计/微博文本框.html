@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      form {
+        width: 235px;
+        margin: 0 auto;
+      }
+      p {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="">
+      <textarea name="" id="" cols="30" rows="10"></textarea>
+      <p>0</p>
+    </form>
+    <script>
+      const txt = document.querySelector("textarea");
+      const p = document.querySelector("p");
+      let str;
+      let num = 0;
+      txt.value = "";
+      window.addEventListener("input", function () {
+        num = 0;
+        str = String(txt.value);
+        num = str.length;
+        p.innerHTML = num;
+      });
+    </script>
+  </body>
+</html>

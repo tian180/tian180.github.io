@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      p {
+        font-size: 50px;
+        position: absolute;
+        left: calc(50% - 500px);
+        top: calc(50% - 50px);
+      }
+    </style>
+  </head>
+  <body>
+    <p></p>
+    <script>
+      let p = document.querySelector("p");
+      let n = 5;
+      let timer = null;
+      jump();
+      clearInterval(timer);
+      function jump() {
+        if (n === 0) {
+          // 成立跳转
+          window.location.href = "http://www.sina.com.cn";
+          clearInterval(timer);
+        } else {
+          //   不成立：读秒、
+          p.innerHTML = `页面没有找到${n}秒钟之后将会带您进入新浪首页`;
+          n--;
+        }
+      }
+      timer = window.setInterval(jump, 1000);
+    </script>
+  </body>
+</html>

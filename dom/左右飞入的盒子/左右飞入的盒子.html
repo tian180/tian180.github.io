@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: thistle;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+      }
+      div {
+        height: 30vh;
+        width: 30vw;
+        background-color: antiquewhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: chocolate;
+        border: 2px solid black;
+        border-radius: 10px;
+        transform: translateX(-400px);
+        transition: 0.5s;
+        opacity: 1;
+      }
+      div:nth-of-type(even) {
+        transform: translateX(400px);
+      }
+      div.show {
+        transform: translateX(0px);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>滑动滚动条查看效果</h1>
+    <div class="box">JavaScript</div>
+    <div class="box">JavaScript</div>
+    <div class="box">JavaScript</div>
+    <div class="box">JavaScript</div>
+    <div class="box">JavaScript</div>
+    <div class="box">JavaScript</div>
+    <div class="box">JavaScript</div>
+    <div class="box">JavaScript</div>
+    <div class="box">JavaScript</div>
+    <div class="box">JavaScript</div>
+    <script>
+      const divArr = document.querySelectorAll("div");
+      // 拖动滚动条，有条件添加或删除.show
+      window.addEventListener("scroll", showFn);
+      //   showFn()
+      function showFn() {
+        divArr.forEach((element) => {
+          if (
+            parseInt(element.getBoundingClientRect().top) <
+            (window.innerHeight / 6) * 5
+          ) {
+            element.classList.add("show");
+          } else {
+            element.classList.remove("show");
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
