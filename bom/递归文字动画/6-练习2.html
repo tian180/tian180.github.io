@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>递归</title>
+    <style>
+      body {
+        background-color: pink;
+        text-align: center;
+      }
+      p {
+        width: 500px;
+        height: 100px;
+        font-size: 50px;
+        margin: 200px auto;
+      }
+      input {
+        width: 35px;
+      }
+    </style>
+  </head>
+  <body>
+    <p>11</p>
+    <span>速度：<input type="number" value="0" /></span>
+    <script>
+      const btn = document.querySelector("input");
+      const p = document.querySelector("p");
+      let str = "吃饭、睡觉、写代码...";
+      let timer;
+      let n = 0;
+      let len = str.length;
+      fn();
+      function fn() {
+        p.innerHTML = str.slice(0, n);
+        n++;
+        if (n > len) {
+          n = "";
+        }
+        setTimeout(fn, 500);
+      }
+    </script>
+  </body>
+</html>
