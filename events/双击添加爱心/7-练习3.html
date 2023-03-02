@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+      }
+      div {
+        width: 400px;
+        height: 400px;
+        background-image: url(https://inews.gtimg.com/newsapp_bt/0/14669341003/641);
+        margin: 0 auto;
+        position: relative;
+        /* overflow: hidden; */
+      }
+      .iconfont.icon-aixin {
+        font-size: 70px;
+        display: block;
+        position: absolute;
+        color: red;
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%) scale(0);
+        /* transition: .5s;当属性发生变化时生效 */
+        animation: big 1s linear;
+      }
+      @keyframes big {
+        from {
+          transform: translate(-50%, -50%) scale(0);
+          opacity: 1;
+        }
+        to {
+          transform: translate(-50%, -50%) scale(4);
+          opacity: 0;
+        }
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="http://at.alicdn.com/t/c/font_3925749_xm9e63xtyqn.css"
+    />
+  </head>
+  <body>
+    <div></div>
+    <!-- class="iconfont icon-aixin" -->
+    <span></span>
+    <script>
+      // 需求：双击图片显示爱心
+      /*  需求分析：
+        1.双击图片显示红心
+        2.红心跟随鼠标显示 
+        3.红心使用特效显示
+        4.显示完毕再消失
+        */
+      /* 
+       技术分析：
+       1.dblclick事件 + 在线图标 + createElement() + appendChild()
+       2.span标签的left = mouseX - div.offsetLeft - 红心宽度的一半
+       3.使用CSS animation属性创建scale opacity动画效果
+       4.heart.remove()
+       */
+      const div = document.querySelector("div");
+      div.addEventListener("dblclick", (ev) => {
+        const heart = document.createElement("span");
+        heart.classList.add("iconfont");
+        heart.classList.add("icon-aixin");
+        // 思路2：先处理样式，再绑定DOM
+        heart.style.left =
+          ev.clientX - ev.target.offsetLeft - heart.offsetWidth + "px";
+        heart.style.top =
+          ev.clientY - ev.target.offsetTop - heart.offsetHeight + "px";
+        // 绑定DOM
+        div.appendChild(heart);
+        setTimeout(() => {
+          heart.remove();
+        }, 500);
+        heart.style.transform = "scale(2)";
+        //思路1：先绑定DOM,再处理样式
+        // heart.style.left =
+        //   ev.clientX - ev.target.offsetLeft - heart.offsetWidth / 2 + "px";
+        // heart.style.top =
+        //   ev.clientY - ev.target.offsetTop - heart.offsetHeight / 2 + "px";
+      });
+    </script>
+  </body>
+</html>
