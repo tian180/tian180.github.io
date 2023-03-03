@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      /* 父元素 */
+      .APP {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+        flex-wrap: wrap;
+        width: 90vw;
+        height: 80vh;
+        gap: 5px;
+      }
+      /* 子元素 */
+      .APP div {
+        width: 50px;
+        height: 50px;
+        background-color: black;
+        /* 动画 */
+        transition: 0.5s;
+        /* 添加光晕效果 */
+        animation: moonimation-35 5s ease infinite alternate;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="APP"></div>
+    <script>
+      // 获取APP元素
+      const div = document.querySelector(".APP");
+      //   定义随机色
+      const colorArr = [
+        "red",
+        "yellow",
+        "blue",
+        "green",
+        "#5c2223",
+        "#61649f",
+        "#41ae3c",
+      ];
+      let timer;
+      //   生成527个小盒子div
+      for (let i = 0; i < 527; i++) {
+        div.innerHTML += "<div></div>";
+      }
+      //   获取527个小盒子div
+      const divArr = document.querySelectorAll(".APP div");
+      divArr.forEach((div, index) => {
+        // 鼠标悬停在小盒子上，让它改变颜色
+        div.addEventListener("mouseover", () => {
+          //取模随机色
+          div.style.background = `${colorArr[index % colorArr.length]}`;
+        });
+        // 鼠标移出小盒子时
+        div.addEventListener("mouseout", () => {
+          // 开启定时器
+          timer = setInterval(() => {
+            // 鼠标移出小盒子时候变回黑色
+            div.style.background = "black";
+          }, 1000);
+        });
+      });
+    </script>
+  </body>
+</html>
