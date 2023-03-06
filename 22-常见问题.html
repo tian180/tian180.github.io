@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>手风琴</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body,
+      button,
+      p {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-size: 16px;
+        font-family: fantasy;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      /* 手风琴样式 */
+      #app {
+        width: 50vw;
+      }
+      button {
+        background-color:skyblue;
+        width: 100%;
+        height: 100px;
+        border: none;
+        padding: 10px;
+        text-align: left;
+        position: relative;
+      }
+      button::after {
+        content: "+";
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      button:hover {
+        cursor: pointer;
+        background-color: aquamarine;
+      }
+      .content {
+        background-color: #f19790;
+        max-height: 0;
+        overflow: hidden;
+        transition: 0.3s;
+      }
+      .content p {
+        padding: 20px;
+      }
+      .show::after {
+        content: "-";
+      }
+      .show + .content {
+        max-height: 1000px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="item">
+        <button>第一部分：HTML</button>
+        <div class="content">
+          <p>
+            超文本标记语言是标准通用标记语言下的一个应用，也是一种规范，一种标准，它通过标记符号来标记要显示的网页中的各个部分。网页文件本身是一种文本文件，通过在文本文件中添加标记符，可以告诉浏览器如何显示其中的内容（如：文字如何处理，画面如何安排，图片如何显示等）。浏览器按顺序阅读网页文件，然后根据标记符解释和显示其标记的内容，对书写出错的标记将不指出其错误，且不停止其解释执行过程，编制者只能通过显示效果来分析出错原因和出错部位。但需要注意的是，对于不同的浏览器，对同一标记符可能会有不完全相同的解释，因而可能会有不同的显示效果。
+            [3]
+          </p>
+        </div>
+      </div>
+      <div class="item">
+        <button>第二部分：CSS</button>
+        <div class="content">
+          <p>
+            层叠样式表（Cascading Style
+            Sheet，CSS）有助于实现负责任的Web设计。CSS对开发者构建Web站点的影响很大，并且这种影响可能是无止境的。将网页的大部分甚至是全部的表示信息从（X）HTML文件中移出，并将它们保留在一个样式表中有诸多优点，如降低文件大小、节省网络带宽以及易于维护等。此外，站点的表现信息和核心内容相分离，使得站点的设计人员能够在短暂的时间内对整个网站进行各种各样的修改。
+            CSS简化了网页的格式代码，外部的样式表还会被浏览器保存在缓存里，加快了下载显示的速度，也减少了需要上传的代码数量（因为重复设置的格式将被只保存一次）。只要修改保存着网站格式的CSs样式表文件就町以改变整个站点的风格特色，在修改页面数量庞大的站点时，显得格外有用。这就避免了一个个网页的修改，大大减少了工作量。
+          </p>
+        </div>
+      </div>
+      <div class="item">
+        <button>第三部分：JavaScript</button>
+        <div class="content">
+          <p>
+            JavaScript（简称“JS”）
+            是一种具有函数优先的轻量级，解释型或即时编译型的编程语言。虽然它是作为开发Web页面的脚本语言而出名，但是它也被用到了很多非浏览器环境中，JavaScript
+            基于原型编程、多范式的动态脚本语言，并且支持面向对象、命令式、声明式、函数式编程范式。
+            [1] JavaScript在1995年由Netscape公司的Brendan
+            Eich，在网景导航者浏览器上首次设计实现而成。因为Netscape与Sun合作，Netscape管理层希望它外观看起来像Java，因此取名为JavaScript。但实际上它的语法风格与Self及Scheme较为接近。
+            [2] JavaScript的标准是ECMAScript 。截至 2012
+            年，所有浏览器都完整的支持ECMAScript
+            5.1，旧版本的浏览器至少支持ECMAScript 3
+            标准。2015年6月17日，ECMA国际组织发布了ECMAScript的第六版，该版本正式名称为
+            ECMAScript 2015，但通常被称为ECMAScript 6 或者ES2015。
+          </p>
+        </div>
+      </div>
+    </div>
+    <script>
+      const btnArr = document.querySelectorAll("button");
+      let last = btnArr[0];
+      const p = document.querySelectorAll("p");
+      btnArr.forEach((btn) => {
+        // 点击btn
+        btn.addEventListener("click", () => {
+          if (btn.classList.contains("show")) {
+            // 点击的是同一个按钮
+            btn.classList.toggle("show");
+          } else {
+            // 点击的不是同一个按钮时执行
+            last.classList.remove("show");
+            btn.classList.add("show");
+            last = btn;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
