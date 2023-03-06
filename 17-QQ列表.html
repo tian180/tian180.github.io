@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QQ列表</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      button,
+      body,
+      p,
+      ul {
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        font-size: 16px;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #accordion {
+        width: 30vw;
+        border: 1px solid black;
+      }
+
+      button {
+        background-color: pink;
+        width: 100%;
+        border: none;
+        padding: 10px 10px;
+        text-align: left;
+        position: relative;
+        font-weight: 600;
+      }
+
+      button:hover {
+        cursor: pointer;
+      }
+      .content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: turquoise;
+      }
+      ul {
+        list-style: none;
+      }
+      li {
+        padding: 5px;
+        line-height: 20px;
+        border-bottom: 1px solid black;
+      }
+      .active + .content {
+        transition: 1s;
+        max-height: 250px;
+      }
+      .color {
+        background-color: gold;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="accordion">
+      <div class="item">
+        <button>联系人</button>
+        <div class="content">
+          <ul>
+            <li>王語席</li>
+            <li>王語席</li>
+            <li>王語席</li>
+            <li>王語席</li>
+          </ul>
+        </div>
+      </div>
+      <div class="item">
+        <button>企业联系人</button>
+        <div class="content">
+          <ul>
+            <li>玉溪</li>
+            <li>玉溪</li>
+            <li>玉溪</li>
+            <li>玉溪</li>
+          </ul>
+        </div>
+      </div>
+      <div class="item">
+        <button>黑名单</button>
+        <div class="content">
+          <ul>
+            <li>火雞</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <script>
+      const divArr = document.querySelectorAll(".content");
+      const btnArr = document.querySelectorAll("button");
+      const liArr = document.querySelectorAll("li");
+      let last = btnArr[0];
+      btnArr.forEach((btn) =>
+        btn.addEventListener("click", (ev) => {
+          if (btn.classList.contains("active")) {
+            btn.classList.toggle("active");
+            btn.style.background = "pink";
+          } else {
+            last.classList.remove("active");
+            last.style.background = "pink";
+            btn.style.background = "pink";
+            btn.classList.add("active");
+          }
+          last = btn;
+        })
+      );
+      let last1 = liArr[0];
+      liArr.forEach((li) =>
+        li.addEventListener("click", (ev) => {
+          last1.classList.remove("color");
+          li.classList.add("color");
+          last1 = li;
+        })
+      );
+    </script>
+  </body>
+</html>
