@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>懶加載</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 22px;
+        background-color: black;
+        color: white;
+      }
+      #app {
+        width: 600px;
+        display: flex;
+        padding: 20px;
+      }
+      #app .items {
+        margin-top: 20px;
+      }
+      .loader {
+        display: flex;
+        align-items: center;
+        width: 58px;
+        justify-content: space-between;
+        opacity: 0;
+      }
+      .loader.show {
+        opacity: 1;
+      }
+      .loader div {
+        width: 16px;
+        height: 24px;
+        background-color: white;
+        animation: loader 1.2s infinite;
+      }
+      .loader div:nth-child(1) {
+        animation-delay: -0.24s;
+      }
+      .loader div:nth-child(2) {
+        animation-delay: -0.12s;
+      }
+      .loader div:nth-child(3) {
+        animation-delay: 0s;
+      }
+      @keyframes loader {
+        0% {
+          height: 16px;
+        }
+        50%,
+        100% {
+          height: 24px;
+        }
+      }
+      span {
+        margin: 30px 0 0 0;
+        display: inline-block;
+      }
+      p {
+        line-height: 30px;
+      }
+      address {
+        padding-top: 10px;
+        color: palegoldenrod;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <h1>語錄</h1>
+        <div class="items">
+          <!-- <div class="item">
+            <span>1.</span>
+            <p>Talk is cheap,show me the code.</p>
+            <address>Linux</address>
+          </div> -->
+        </div>
+        <div class="loader">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // 获取元素
+      const itemsEl = document.querySelector(".items");
+      const loader = document.querySelector(".loader");
+      // 获取变量
+      let currentPage = 1; //页面数
+      // 全部数据，设为0，假设我们不知道有多少条数据
+      let all = 0;
+      let limit = 10; //获取数据，每次10条
+      let reached = false;
+
+      let finished = true; //开关，标识下一组数据
+      // 初始化
+      // 1.获取数据
+      function getItems(page, limit) {
+        // 添加动画
+        showLoader();
+        const API = `https://api.javascripttutorial.net/v1/quotes/?page=${page}&limit=${limit}`;
+        // 4.发请求，获取数据
+        // 1.实例化xhr对象
+        const xhr = new XMLHttpRequest();
+        // 2.准备发送请求
+        xhr.open("GET", API, true);
+        // 4.监控xhr实例对象状态
+        xhr.onload = () => {
+          // 5.查询xhr实例的状态
+          if (xhr.status === 200) {
+            // 发起http请求 等于200就是可以显示出来
+            // 6.响应已完成， 获取数据
+            const itemData = JSON.parse(xhr.response); //用于返回http请求的正文 我们需要把他转成一个对象
+            console.log(itemData);
+            renderItems(itemData.data);
+            all = itemData.total;
+          }
+        };
+        // 3.发送请求
+        xhr.send();
+      }
+
+      // 2.渲染数据
+      function renderItems(data) {
+        data.forEach((item) => {
+          // 添加一个新元素
+          const div = document.createElement("div");
+          // 让div的class名字等于itme
+          div.classList = "item";
+          // 获取内容
+          div.innerHTML = `<span>${item.id}</span>
+          <p>${item.quote}</p>
+          <address>${item.author}</address>`;
+          // 把内容输出在item里
+          itemsEl.appendChild(div);
+        });
+        finished = true;
+        // 关闭动画，如果不关闭，到结尾就会一直显示
+        hideLoader();
+      }
+      // 开启动画
+      function showLoader() {
+        loader.classList.add("show");
+      }
+      // 关闭动画
+      function hideLoader() {
+        loader.classList.remove("show");
+      }
+      // 3.初始化
+      getItems(currentPage, limit);
+      // 5.滾動条（文档）滚到视口底部時，加載下一组数据
+      // 视口高度 + 滚动距离 > 文档高度
+      window.addEventListener("scroll", () => {
+        // const a = window.innerHeight;
+        // const b = window.scrollY;
+        // const c = document.documentElement.scrollHeight;
+        // es6 新增表达式语法：解构 + es6新增对象语法：对象属性的简写
+        const { clientHeight, scrollTop, scrollHeight } =
+          document.documentElement;
+        if (
+          // 视口高 + 滚动距离 > 元素高度  Math.ceil向上取整 数据总数 / 20 要小于 page  115/ 20 = 5.75 = 6
+          clientHeight + scrollTop >= scrollHeight - 5 &&
+          currentPage < Math.ceil(all / limit)
+        ) {
+          //                              向上取整，页码小于6
+          // if (a + b >= c && currentPage < Math.ceil(all / limit)) {
+          if (!finished) return; //第二次scroll会返回
+          finished = false; //表示下一组数据还没有完成
+          // setInterval(() => {
+          // 页码数会加载 只能等于6页
+          currentPage++;
+          // 调用获取数据的页面
+          getItems(currentPage, limit);
+          // }, 500);
+        }
+        // 给文档底部添加文字
+        // Math.ceil(total/limit)的全部数据内容 只能等于页码数6
+        if (currentPage === Math.ceil(all / limit) && finished) {
+          if (reached) return;
+          reached = true;
+          const div = document.createElement("div");
+          div.innerHTML = "我是有底線的";
+          itemsEl.appendChild(div);
+        }
+      });
+    </script>
+  </body>
+</html>
