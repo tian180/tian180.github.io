@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>使用面向过程编写选项卡</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      #tabs1 {
+        width: 500px;
+        height: 400px;
+        border: 1px solid red;
+      }
+      #tabs2 {
+        width: 500px;
+        height: 400px;
+        border: 1px solid red;
+      }
+      .tabs {
+        background-color: aquamarine;
+      }
+      button {
+        width: 100px;
+        height: 50px;
+        padding: 5px 20px;
+      }
+      .tabs-content {
+        position: relative;
+      }
+      .tabs-content div {
+        height: 350px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: none;
+      }
+      .tabs-content .box1 {
+        background-color: aquamarine;
+        /* display: block; */
+      }
+      .tabs-content .box2 {
+        background-color: blueviolet;
+      }
+      .tabs-content .box3 {
+        background-color: saddlebrown;
+      }
+      .tabs-content div.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="tabs1">
+      <div class="tab">
+        <button>栏目1</button><button>栏目2</button><button>栏目3</button>
+      </div>
+      <div class="tabs-content">
+        <div class="box1">内容1</div>
+        <div class="box2">内容2</div>
+        <div class="box3">内容3</div>
+      </div>
+    </div>
+    <script>
+      const tabs1 = document.querySelector("#tabs1");
+      const tabs2 = document.querySelector("#tabs2");
+      tabFn(tabs1);
+      tabFn(tabs2);
+      function tabFn(ele) {
+        //获取元素
+        const btnArr = ele.querySelectorAll("button");
+        const divArr = ele.querySelectorAll(".tabs-content div");
+
+        //声明变量
+        let last = 0;
+        let len = btnArr.length;
+        //客户需求：点击按钮 切换内容
+        //编程需求：1.点击按钮 清除上一个的active，为当前按钮添加active
+        //2.隐藏上一个显示的内容块，显示当前内容块
+
+        //①批量注册点击事件
+        for (let i = 0; i < len; i++) {
+          btnArr[i].addEventListener("click", function () {
+            btnArr[last].classList.remove("active");
+            btnArr[i].classList.add("active");
+            divArr[last].style.display = "none";
+            divArr[i].style.display = "block";
+            last = i;
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

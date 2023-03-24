@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>waterfall</title>
+    <style>
+      #app {
+        width: 600px;
+        border: 1px solid black;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .waterDiv {
+        position: absolute;
+      }
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- <div class="waterDiv">
+        <img
+          src="https://via.placeholder.com/150x200"
+          alt=""
+          class="waterImg"
+        />
+      </div> -->
+    </div>
+    <script>
+      const app = document.querySelector("#app");
+      const col = 3;
+      const url = `https://api.unsplash.com/photos/random?count=20&client_id=X4JcIdp15q6kgJZE76svrckZJyiXQrfnhnzbPNG3VAg`;
+      // 数组heightArr：存储每一列的高度作为div.style.top的值
+      const heightArr = [0, 0, 0];
+      // 获取数组中最小高度值的索引位置以便设置div.style.left = 图片宽 * 最小高度索引
+      function getMinHeightIndex(arr) {
+        // 返回数组中最小值的索引
+        return arr.indexOf(Math.min.apply(null, arr));
+      }
+      let r = getMinHeightIndex(heightArr);
+      function waterFall(API) {
+        // 解析数据  async …… await (必须出现在async内部)
+        let fetchData = async function (API) {
+          //目标：返回一个带着数据的promise,
+          return await (await fetch(API)).json();
+        };
+        fetchData(API).then((data) => {
+          //使用回调渲染页面
+          console.log(data);
+          for (item of data) {
+            const div = document.createElement("div");
+            const img = document.createElement("img");
+            // 获取图片地址
+            img.src = item.urls.small;
+            // 为div设置类waterDiv
+            div.className = "waterDiv";
+            // 为div设置类waterImg
+            img.className = "waterImg";
+            // 设置div的宽度width =  app容器的宽度 / 列数
+            div.style.width = app.offsetWidth / col + "px";
+            // 设置div的height = APP容器的宽度 / 列数 * 图片原始高度 / 图片原始宽度
+            div.style.height =
+              ((app.offsetWidth / col) * item.height) / item.width + "px";
+            //div的top值 = 通过getMinHeightIndex方法获取到heightArr数组中的最小值
+            div.style.top = heightArr[getMinHeightIndex(heightArr)] + "px";
+            //div的left值 = 获取heightArr数组中的最小值的索引 * div的宽度
+            div.style.left =
+              getMinHeightIndex(heightArr) * parseInt(div.style.width) + "px";
+            //上面两步操作完毕后，要更新heightArr数组中的值 += 新插入的图片的高度
+            heightArr[getMinHeightIndex(heightArr)] += parseInt(
+              div.style.height
+            );
+            div.appendChild(img);
+            app.appendChild(div);
+          }
+        });
+      }
+      waterFall(url);
+      window.addEventListener("scorll", () => {
+        const {
+          scrollHeight: a,
+          scrollTop: b,
+          clientHeight: c,
+        } = document.documentElement;
+      });
+    </script>
+  </body>
+</html>
