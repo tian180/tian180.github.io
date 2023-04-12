@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/head.ejs') %>
+
+    <body>
+        <%- include('./partials/nav.ejs') %>
+            <div class="container mt-5 mb-5">
+                <!-- 创建行 -->
+                <div class="row">
+                    <div class="col-9">
+                        <!-- 下面是要循环的卡片代码 -->
+                        <main>
+                            <div><a class="btn btn-danger delete" data-bid="<%=blog._id%>">删除</a></div>
+                            <img src="https://via.placeholder.com/600x400" class="img-fluid rounded-start" alt="...">
+                            <h2 class="card-title">
+                                <a href="/details/<%=blog._id%>">
+                                    <%= blog.title %>
+                                </a>
+                            </h2>
+                            <p class="card-text">
+                                <%= blog.body %>
+                            </p>
+                        </main>
+                    </div>
+                    <div class="col-3">
+                        <aside>
+                            <h3>七日热门</h3>
+                            <div class="card">
+                                <img src="https://via.placeholder.com/200x150" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <p class="card-text">Some quick example text to build on the card title and make up
+                                        the bulk of the card's content.</p>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                    <!-- col结束 -->
+                </div><!-- row结束 -->
+            </div><!-- container结束 -->
+            <%- include('./partials/footer.ejs') %>
+                <script>
+                    const btn = document.querySelector('a.delete')
+                    btn.addEventListener('click', () => {
+                        const bid = btn.dataset.bid
+                        const delurl = `/blogs/${bid}`
+                        // console.log(delurl);
+                        fetch(delurl, { method: 'DELETE' })
+                            .then(data => data.json())
+                            .then(data => {
+                                window.location.href = data.redirect
+                            })
+                            .catch(err => console.log(err))
+                    })
+                </script>
+    </body>
+
+</html>

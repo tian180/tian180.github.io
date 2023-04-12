@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/head.ejs') %>
+
+    <body>
+        <%- include('./partials/nav.ejs') %>
+            <div class="container mt-5">
+                <!-- 创建行 -->
+                <div class="row">
+                    <div class="col-9">
+                        <!-- 下面是要循环的卡片代码 -->
+                        <main>
+                            <% blogs.forEach( blog=> { %>
+                                <div class="card mb-3">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <img src="https://via.placeholder.com/300x200"
+                                                class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    <a href="/blogs/<%=blog._id%>">
+                                                        <%= blog.title %>
+                                                    </a>
+                                                </h5>
+                                                <p class="card-text">
+                                                    <%= blog.snippet %>
+                                                </p>
+                                                <p class="card-text"><small class="text-body-secondary">Last updated 3
+                                                        mins
+                                                        ago</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </main>
+
+                    </div>
+                    <div class="col-3">
+                        <aside>
+                            <h3>七日热门</h3>
+                            <div class="card">
+                                <img src="https://via.placeholder.com/200x150" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <p class="card-text">Some quick example text to build on the card title and make up
+                                        the bulk of the card's content.</p>
+                                </div>
+                            </div>
+                            <!-- <img src="https://via.placeholder.com/260x150" alt="">
+                            我记得胡·i哦丰富uuuuioe设计单位尽快 -->
+                        </aside>
+                    </div>
+                    <!-- col结束 -->
+                </div><!-- row结束 -->
+
+                <%- include('./partials/footer.ejs') %>
+            </div><!-- container结束 -->
+    </body>
+
+</html>
