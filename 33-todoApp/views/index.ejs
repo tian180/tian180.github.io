@@ -1,0 +1,116 @@
+<form action="/todo/add" method="POST" class="row g-3 mt-1">
+    <div class="col-auto d-none">
+        <label for="staticEmail2" class="visually-hidden">Email</label>
+        <input type="text" readonly="false" class="form-control-plaintext" id="staticEmail2" value="email@example.com">
+    </div>
+    <div class="col-auto">
+        <div class="row">
+            <div class="col-auto">
+                <label for="inputPassword2" class="visually-hidden">Password</label>
+                <input type="text" name="title" class="form-control" id="inputPassword2" placeholder="输入任务...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">添加任务</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ul class="list-group">
+    <li class="list-group-item active" aria-current="true">任务清单</li>
+    <!-- 数据data：数组 -->
+    <% data.forEach( item=> { %>
+        <li class="list-group-item">
+            <div class="container">
+                <div class="row">
+                    <div class="col-8">
+                        <p>
+                            <%= item.title %>
+                        </p>
+                        <input class="d-none" type="text" value="<%= item.title %>">
+                    </div>
+                    <div class="col-4 d-flex justify-content-end">
+                        <button class="btnCancel btn btn-secondary d-none">取消</button>
+                        <!-- <button class="btnSubmit btn btn-secondary d-none">确定</button> -->
+                        <button data-url="/todo/update/<%= item._id %>"
+                            class="btnSubmit btn btn-secondary d-none">确定</button>
+                        <button class="btnEdit btn btn-secondary">编辑</button>
+                        <a href="/todo/delete/<%= item._id %>" class="btn btn-danger">删除</a>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <% }) %>
+</ul>
+
+<script>
+    //获取到所有的编辑按钮
+    const btnEditArr = document.querySelectorAll('.btnEdit')
+    const btnCancelArr = document.querySelectorAll('.btnCancel')
+    const btnSubmitArr = document.querySelectorAll('.btnSubmit')
+    const len = btnEditArr.length
+    // putFn(btnEditArr[0],btnCancelArr[0],btnSubmitArr[0])
+    for (let i = 0; i < btnEditArr.length; i++) {
+        putFn(btnEditArr[i],btnCancelArr[i],btnSubmitArr[i])
+    }
+    
+
+    //循环
+    function putFn(btnEdit,btnCancel,btnSubmit) {
+        //为第一个按钮添加点击事件
+        btnEdit.addEventListener('click', (ev) => {
+            //1.创建或显示btnCancel和btnSubmit
+            ev.target.parentElement.children[0].classList.remove('d-none')
+            ev.target.parentElement.children[1].classList.remove('d-none')
+
+            //2.隐藏标题p元素，显示input元素
+            ev.target.parentElement.parentElement.children[0].children[0].classList.add('d-none')
+            ev.target.parentElement.parentElement.children[0].children[1].classList.remove('d-none')
+
+            //3.删除或隐藏btnEditArr[0]
+            //ev.target.remove() //删除
+            ev.target.classList.add('d-none') //隐藏
+
+            //4.点击btnCancel：3个元素消失(btnCancel 、btnSubmit 、input) 2个元素显示(btnEdit 、p)
+            btnCancel.addEventListener('click', (e) => {
+                //2个元素显示(btnEdit 、p)
+                e.target.parentElement.parentElement.children[0].children[0].classList.remove('d-none')
+                e.target.nextElementSibling.nextElementSibling.classList.remove('d-none')
+
+                //3个元素消失(btnCancel 、btnSubmit 、input)
+                e.target.nextElementSibling.classList.add('d-none')
+                e.target.parentElement.parentElement.children[0].children[1].classList.add('d-none')
+                e.target.classList.add('d-none')
+            })
+
+            //5.点击btnSubmit按钮
+            btnSubmit.addEventListener('click', function () {
+                // 使用Fetch API向服务器发送PUT请求（修改数据的请求）
+                const data = { title: this.parentElement.parentElement.children[0].children[1].value }
+                console.log(data);
+                const url = btnSubmit.dataset.url
+                // console.log(url);
+                const options = {
+                    //描述请求方式是：PUT
+                    method: 'PUT',
+                    //headers：描述请求头信息：数据类型(告诉浏览器：)
+                    headers: { "Content-Type": "application/json" },
+                    //body：请求的正文，正文格式必须和headers保持一致
+                    body: JSON.stringify(data)
+                }
+                // fetch(url,options) 返回promise
+                fetch(url, options)
+                    .then(data => data.json())
+                    .then(data => {
+                        console.log(data.redirect)
+                        window.location.href = data.redirect
+                    })
+                    .catch(err => console.log(err))
+
+                // 重定向到首页,服务器需要返回：{redirect:'/'}
+            })
+        })
+    }
+</script>
