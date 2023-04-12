@@ -32,4 +32,4 @@ JS 作业库
 28. [OOP选项卡](./28-OOP%E9%80%89%E9%A1%B9%E5%8D%A1.html)
 29. [OOP书单管理器](./29-%E4%B9%A6%E5%8D%95%E7%AE%A1%E7%90%86%E5%99%A8.html)
 30. [OOP选项卡升级版](./30-OPP%E9%80%89%E9%A1%B9%E5%8D%A1%E5%8D%87%E7%BA%A7%E7%89%88.html)
-31. [myblog](./31-myBlog/app.js)
+31. [myblog](./31-myBlog)
