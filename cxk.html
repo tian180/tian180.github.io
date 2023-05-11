@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>鸡你太美</title>
+
+</head>
+<style>
+    /* 定义动画规则 */
+    @keyframes king {
+        0% {
+            transform: translateY(0) rotate(0);
+        }
+
+        25% {
+            transform: translateY(-5px) translateX(5px) rotateZ(5deg) scale(1.2);
+        }
+
+        50% {
+            transform: translateY(0) translateX(0px) rotate(0) scale(1);
+        }
+
+        75% {
+            transform: translateY(-5px) translateX(-5px) rotateZ(-5deg) scale(1.2);
+        }
+
+        100% {
+            transform: translateY(0) translateX(0px) rotate(0) scale(1);
+        }
+    }
+
+    img {
+        height: 320px;
+        position: absolute;
+        top: 50px;
+        left: 500px;
+        /* 调用动画 */
+        /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+        animation: king 0.5s infinite forwards;
+
+    }
+    .wrapper {
+        position: relative;
+        height: 200px; /* 弹幕容器高度 */
+        overflow: hidden; /* 隐藏溢出部分 */
+       
+      }
+      
+      .bullet {
+        position: absolute;
+        top: 0;
+        white-space: nowrap; /* 不换行 */
+        font-size: 16px;
+        color:red;
+        animation: move linear 13s infinite; /* 设置弹幕运动动画 */
+        font-size: 40px;
+        font-weight: 900;
+      }
+      
+      @keyframes move {
+        from {
+          transform: translateX(1920px); /* 设置弹幕出现位置 */
+        }
+      
+        to {
+          transform: translateX(0px); /* 设置弹幕结束位置 */
+        }
+      }
+      
+      .bullet:nth-child(2n) {
+        animation: move linear 10s infinite;
+        margin-top: 20px;
+        top: 40px;
+        color: black; /* 设置奇偶行弹幕不同的颜色 */
+      }
+</style>
+
+<body>
+    <img class="caixukun" src="./cxk.png" alt="鸡你太美" title="坤坤最帅">
+    <div class="wrapper">
+        <div class="bullet">鸡你太美</div>
+        <div class="bullet">坤坤最帅</div>
+      </div>
+    
+</body>
+
+</html>
