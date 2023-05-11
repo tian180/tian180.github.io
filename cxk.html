@@ -9,6 +9,9 @@
 
 </head>
 <style>
+  body{
+    width: 300px;
+  }
     /* 定义动画规则 */
     @keyframes king {
         0% {
@@ -55,14 +58,14 @@
         white-space: nowrap; /* 不换行 */
         font-size: 16px;
         color:red;
-        animation: move linear 13s infinite; /* 设置弹幕运动动画 */
+        animation: move linear 5s infinite; /* 设置弹幕运动动画 */
         font-size: 40px;
         font-weight: 900;
       }
       
       @keyframes move {
         from {
-          transform: translateX(1920px); /* 设置弹幕出现位置 */
+          transform: translateX(300px); /* 设置弹幕出现位置 */
         }
       
         to {
@@ -71,7 +74,7 @@
       }
       
       .bullet:nth-child(2n) {
-        animation: move linear 10s infinite;
+        animation: move linear 7s infinite;
         margin-top: 20px;
         top: 40px;
         color: black; /* 设置奇偶行弹幕不同的颜色 */
