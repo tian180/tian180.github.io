@@ -35,3 +35,4 @@ JS 作业库
 31. [myblog](./31-myBlog/app.js)
 32. [登录APP](./32-loginApp/app.js)
 33. [Todo](./33-todoApp/app.js)
+34. [蔡徐坤真爱粉](./cxk.html)
